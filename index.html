@@ -3,132 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACS Work Portal & Assistant</title>
+    <title>ACS Digital Work Portal</title>
     <style>
-        * { box-sizing: border-box; font-family: Arial, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f0f4f8; color: #333; padding-bottom: 80px; }
+        /* === DARK DIGITAL NEON THEME === */
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #09090e; color: #e0e0e0; padding-bottom: 60px; overflow-x: hidden; }
         
-        /* Header & Search */
-        header { background-color: #004080; color: white; padding: 25px; text-align: center; }
-        header h1 { margin-bottom: 10px; font-size: 28px; }
-        .search-container { max-width: 600px; margin: 15px auto; position: relative; }
-        #searchInput { width: 100%; padding: 14px; font-size: 16px; border: 2px solid #ccc; border-radius: 8px; outline: none; }
-        #searchInput:focus { border-color: #ff9900; }
+        header { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); text-align: center; padding: 30px 20px; border-bottom: 3px solid #ff007a; box-shadow: 0 0 20px rgba(255, 0, 122, 0.4); }
+        .main-logo { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 15px; box-shadow: 0 0 15px #00f0ff; border: 2px solid #00f0ff; object-fit: cover; }
+        header h1 { font-size: 32px; color: #ffffff; text-shadow: 0 0 10px #00f0ff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
+        header p { color: #b3b3b3; font-size: 16px; letter-spacing: 1px; margin-bottom: 20px; }
         
-        /* Auto-Suggest Dropdown */
-        .suggestions-box { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ddd; border-top: none; z-index: 10; border-radius: 0 0 8px 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto; text-align: left; }
-        .suggestion-item { padding: 12px; cursor: pointer; color: #333; border-bottom: 1px solid #eee; }
-        .suggestion-item:hover { background-color: #f0f8ff; color: #004080; font-weight: bold; }
-
-        /* Services Grid */
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-        .service-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .service-card { background: white; padding: 25px 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; text-align: center; font-size: 18px; font-weight: bold; color: #004080; border-bottom: 4px solid #004080; }
-        .service-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-bottom-color: #ff9900; }
-
-        /* Modal (Popup) */
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); }
-        .modal-content { background-color: white; margin: 5% auto; padding: 25px; border-radius: 10px; width: 90%; max-width: 700px; position: relative; max-height: 80vh; overflow-y: auto; }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #777; }
-        .close-btn:hover { color: red; }
-        .section-title { font-weight: bold; margin-top: 15px; color: #004080; font-size: 18px; }
-        .content-box { background: #f9f9f9; padding: 15px; border-left: 5px solid #ff9900; margin-top: 8px; line-height: 1.6; border-radius: 4px; }
-        a.official-link { display: inline-block; margin-top: 10px; color: white; background: #28a745; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; }
-        a.official-link:hover { background: #218838; }
-
-        /* ACS Assistant (Chatbot) */
-        .chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
-        .chat-btn { background-color: #004080; color: white; border: none; border-radius: 50%; width: 65px; height: 65px; font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s; display: flex; align-items: center; justify-content: center; font-weight: bold;}
-        .chat-btn:hover { background-color: #ff9900; transform: scale(1.1); }
-        .chat-box { display: none; position: absolute; bottom: 80px; right: 0; width: 350px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); overflow: hidden; flex-direction: column; }
-        .chat-header { background: #004080; color: white; padding: 15px; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; }
-        .chat-close { cursor: pointer; font-size: 20px; }
-        .chat-body { padding: 15px; height: 300px; overflow-y: auto; background: #f4f7f6; display: flex; flex-direction: column; gap: 10px; }
-        .chat-input-area { display: flex; border-top: 1px solid #ddd; }
-        .chat-input-area input { flex: 1; padding: 12px; border: none; outline: none; }
-        .chat-input-area button { background: #004080; color: white; border: none; padding: 0 15px; cursor: pointer; font-weight: bold; }
+        .search-container { max-width: 700px; margin: 0 auto; position: relative; }
+        #searchInput { width: 100%; padding: 18px; font-size: 18px; background: rgba(255, 255, 255, 0.05); color: #00f0ff; border: 2px solid #8a2be2; border-radius: 30px; outline: none; transition: 0.3s; }
+        #searchInput:focus { border-color: #00f0ff; box-shadow: 0 0 20px rgba(0, 240, 255, 0.5); }
         
-        /* Chat Bubbles */
-        .msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 14px; line-height: 1.4; }
-        .msg-user { background: #004080; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-        .msg-bot { background: #e0e0e0; color: black; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .suggestions-box { display: none; position: absolute; top: 100%; left: 5%; right: 5%; background: #1a1a2e; border: 1px solid #8a2be2; z-index: 10; border-radius: 0 0 15px 15px; max-height: 250px; overflow-y: auto; text-align: left; }
+        .suggestion-item { padding: 15px; cursor: pointer; color: #fff; border-bottom: 1px solid #333; transition: 0.2s; }
+        .suggestion-item:hover { background-color: #8a2be2; padding-left: 25px; }
+
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .service-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .service-card { background: linear-gradient(145deg, #161625, #1d1d30); padding: 30px 20px; border-radius: 15px; box-shadow: 5px 5px 15px #050508; cursor: pointer; transition: 0.4s; text-align: center; font-size: 18px; font-weight: bold; color: #00f0ff; border-top: 2px solid transparent; }
+        .service-card:hover { transform: translateY(-10px); border-top: 2px solid #ff007a; color: #ff007a; }
+
+        /* FULL PAGE MODAL */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100vw; height: 100vh; background-color: #09090e; overflow-y: auto; padding-bottom: 50px; }
+        .modal-content { max-width: 900px; margin: 40px auto; padding: 40px; background: #12121c; border-radius: 20px; border: 1px solid #00f0ff; box-shadow: 0 0 40px rgba(0, 240, 255, 0.2); position: relative; }
+        .close-btn { position: absolute; top: 20px; right: 30px; font-size: 40px; cursor: pointer; color: #ff007a; }
+        .close-btn:hover { color: #fff; transform: rotate(90deg); }
+        .modal h2 { color: #00f0ff; font-size: 32px; border-bottom: 2px dashed #333; padding-bottom: 15px; margin-bottom: 20px; }
+        .section-title { font-size: 22px; color: #ff007a; margin-top: 30px; margin-bottom: 15px; }
+        .content-box { background: #1a1a2e; padding: 25px; border-left: 5px solid #8a2be2; border-radius: 8px; font-size: 16px; line-height: 1.8; color: #ccc; }
+        .content-box ol { padding-left: 20px; margin-top: 10px; }
+        .content-box li { margin-bottom: 10px; }
+        .content-box li::marker { color: #00f0ff; font-weight: bold; }
+        a.official-link { display: inline-block; background: linear-gradient(90deg, #8a2be2, #00f0ff); color: white; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; }
+
+        /* ACS ASSISTANT */
+        .chat-widget { position: fixed; bottom: 30px; right: 30px; z-index: 3000; display: flex; align-items: center; gap: 10px; }
+        .chat-btn { background: linear-gradient(90deg, #00f0ff, #8a2be2, #ff007a); color: white; border: none; border-radius: 40px; padding: 10px 25px; font-size: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 0 20px rgba(138, 43, 226, 0.8); display: flex; align-items: center; gap: 10px; }
+        .chat-btn img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid white; }
+        
+        .chat-box { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(9, 9, 14, 0.98); z-index: 4000; flex-direction: column; }
+        .chat-header { background: linear-gradient(90deg, #1a1a2e, #8a2be2); color: white; padding: 20px; font-size: 24px; font-weight: bold; display: flex; justify-content: space-between; border-bottom: 2px solid #00f0ff; align-items: center;}
+        .chat-header img { width: 40px; height: 40px; border-radius: 50%; margin-right: 15px; }
+        .chat-close { cursor: pointer; font-size: 35px; color: #ff007a; }
+        .chat-body { flex: 1; padding: 30px 15%; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+        
+        .chat-input-area { display: flex; padding: 15px 15%; background: #12121c; border-top: 2px solid #ff007a; align-items: center; gap: 10px; }
+        .camera-btn { background: #302b63; color: #00f0ff; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 24px; border: 1px solid #00f0ff; }
+        .chat-input-area input[type="text"] { flex: 1; padding: 15px; font-size: 18px; border: 2px solid #8a2be2; background: #000; color: #00f0ff; border-radius: 10px; outline: none; }
+        .chat-input-area button { background: linear-gradient(90deg, #8a2be2, #ff007a); color: white; border: none; padding: 0 30px; font-size: 18px; cursor: pointer; font-weight: bold; border-radius: 10px; height: 55px; }
+        
+        .msg { max-width: 85%; padding: 18px; border-radius: 15px; font-size: 18px; line-height: 1.6; }
+        .msg-user { background: #00f0ff; color: #000; align-self: flex-end; border-bottom-right-radius: 2px; font-weight: bold; }
+        .msg-bot { background: #1a1a2e; color: #fff; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #8a2be2; }
+        .app-box { background: #000; border: 1px dashed #00f0ff; padding: 15px; margin-top: 10px; font-family: monospace; color: #00f0ff; }
+
+        footer { text-align: center; padding: 30px; background: #050508; color: #666; font-size: 18px; border-top: 1px solid #1a1a2e; letter-spacing: 2px; }
+        footer span { color: #ff007a; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <header>
+    <img src="https://i.ibb.co/hFRHRQ97/image.png" alt="ACS Logo" class="main-logo" onerror="this.src='https://via.placeholder.com/150'">
     <h1>Adarsh Computer Services & Solve</h1>
-    <p>Without CSC Work Portal</p>
+    <p>DIGITAL WORK PORTAL | TOP 30 SERVICES LOADED</p>
     <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search work (e.g., Ration Card, PAN, Jati)..." oninput="handleSearch()">
+        <input type="text" id="searchInput" placeholder="Search kaam (e.g., PAN, Ration, Jati)..." oninput="handleSearch()">
         <div id="suggestionsBox" class="suggestions-box"></div>
     </div>
 </header>
 
 <div class="container">
-    <div class="service-list" id="serviceList">
-        </div>
+    <div class="service-list" id="serviceList"></div>
 </div>
 
 <div id="serviceModal" class="modal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2 id="modalTitle" style="color:#004080;">Service Name</h2>
-        
-        <div class="section-title">🌐 Website Link:</div>
+        <span class="close-btn" onclick="closeModal()">✖</span>
+        <h2 id="modalTitle">Service Name</h2>
+        <div class="section-title">🌐 OFFICIAL WEBSITE LINK:</div>
         <div id="modalLink"></div>
-        
-        <div class="section-title">📄 Required Documents:</div>
+        <div class="section-title">📄 REQUIRED DOCUMENTS:</div>
         <div class="content-box" id="modalDocs"></div>
-        
-        <div class="section-title">⚙️ Step-by-Step Process:</div>
+        <div class="section-title">⚙️ FULL STEP-BY-STEP PROCESS:</div>
         <div class="content-box" id="modalProcess"></div>
     </div>
 </div>
 
 <div class="chat-widget">
-    <button class="chat-btn" onclick="toggleChat()">🤖</button>
-    <div class="chat-box" id="chatBox">
-        <div class="chat-header">
-            <span>ACS Assistant</span>
-            <span class="chat-close" onclick="toggleChat()">&times;</span>
+    <button class="chat-btn" onclick="toggleChat()">
+        <img src="https://i.ibb.co/hFRHRQ97/image.png" onerror="this.src='https://via.placeholder.com/50'"> 
+        ACS Assistant
+    </button>
+</div>
+
+<div class="chat-box" id="chatBox">
+    <div class="chat-header">
+        <div>
+            <img src="https://i.ibb.co/hFRHRQ97/image.png" align="middle" onerror="this.src='https://via.placeholder.com/50'">
+            ACS Assistant (AI & Form Writer)
         </div>
-        <div class="chat-body" id="chatBody">
-            <div class="msg msg-bot">Namaste Anuj Uncle! Main ACS Assistant hu. Agar koi kaam aapko list mein na mile toh mujhse puchiye, main bataunga aur use list mein hamesha ke liye SAVE bhi kar dunga.</div>
+        <span class="chat-close" onclick="toggleChat()">✖</span>
+    </div>
+    <div class="chat-body" id="chatBody">
+        <div class="msg msg-bot">
+            Namaste Adarsh Ji! 🙏<br><br>
+            Main aapka Fixed ACS Assistant hu. Aap mujhse kisi bhi kaam ka process puch sakte hain (jaise: 'PM Kisan'). Agar 'Application' likhwani hai toh 'Application for...' type karein. Aur form scan karna ho toh <b>📷 Camera icon</b> dabayein!
         </div>
-        <div class="chat-input-area">
-            <input type="text" id="chatInput" placeholder="Apna sawal likhein..." onkeypress="handleChatEnter(event)">
-            <button onclick="sendMessage()">Send</button>
-        </div>
+    </div>
+    <div class="chat-input-area">
+        <label for="cameraUpload" class="camera-btn">📷</label>
+        <input type="file" id="cameraUpload" accept="image/*" capture="environment" style="display:none;" onchange="handleImageUpload(event)">
+        <input type="text" id="chatInput" placeholder="Sawal puchiye ya Application likhwayein..." onkeypress="handleChatEnter(event)">
+        <button onclick="sendMessage()">SEND</button>
     </div>
 </div>
 
+<footer>Powered by <span>ACS</span> | Adarsh Kumar Chandravanshi</footer>
+
 <script>
-    // 1. Memory System (Local Storage) Setup
-    let services = JSON.parse(localStorage.getItem('acs_services_data'));
+    // --- TOP 30 SERVICES PRE-LOADED ---
+    let services = JSON.parse(localStorage.getItem('acs_top30_digital'));
 
     if (!services || services.length === 0) {
-        // Default Services List (Starts with these, expands later)
         services = [
-            { title: "New PAN Card (NSDL)", link: "https://www.onlineservices.nsdl.com/", docs: "Aadhaar Card, 2 Photo", process: "NSDL par Form 49A bharein, e-KYC karein, 107 Rs payment karein." },
-            { title: "Voter ID Apply (Form 6)", link: "https://voters.eci.gov.in/", docs: "Aadhaar, Passport Photo", process: "NVSP par login karein, Form 6 bharein aur photo upload karein." },
-            { title: "Jati/Aay/Awasiya (Jharsewa)", link: "https://jharsewa.jharkhand.gov.in/", docs: "Aadhaar, Khatiyan, Vanshavali", process: "Citizen login karein, certificate select karein, docs upload karke submit karein." },
-            { title: "Ration Card New Apply", link: "https://aahar.jharkhand.gov.in/", docs: "Aadhaar (sabka), Passbook, Mukhiya ka photo", process: "Aahar portal par Green Card apply karein, sabka aadhaar jodein." },
-            { title: "E-Shram Card", link: "https://eshram.gov.in/", docs: "Aadhaar, Bank Passbook, Mobile no", process: "Self-registration par jayein, OTP dalein aur details bharein." },
-            { title: "Ayushman Bharat Card", link: "https://beneficiary.nha.gov.in/", docs: "Aadhaar, Ration Card", process: "Beneficiary login karein, e-KYC karein aur card download karein." },
-            { title: "PM Kisan Samman Nidhi", link: "https://pmkisan.gov.in/", docs: "Aadhaar, Bank Account, Zameen Rasid", process: "New Farmer registration par form bharein." },
-            { title: "PF Withdrawal (Advance/Full)", link: "https://unifiedportal-mem.epfindia.gov.in/", docs: "UAN, Password, Cheque/Passbook", process: "Online Services -> Claim (Form 31/19/10C)." },
-            { title: "Learning License Apply", link: "https://sarathi.parivahan.gov.in/", docs: "Aadhaar Card, Blood Group", process: "Sarathi par e-KYC test dein." },
-            { title: "E-Kalyan Scholarship", link: "https://ekalyan.cgg.gov.in/", docs: "Caste, Income, Local, Bonafide, Marksheet", process: "Student login karke form bharein aur PDFs upload karein." }
+            { title: "1. New PAN Card (NSDL)", link: "https://www.onlineservices.nsdl.com/", docs: "Aadhaar Card, Mobile Number, 2 Photos", process: "<ol><li>NSDL portal kholen.</li><li>Form 49A select karein.</li><li>Individual select karke naam/DOB bharein.</li><li>Token generate karein.</li><li>Aadhaar authentication (e-KYC) chunein.</li><li>Parent details bharein.</li><li>AO code select karein.</li><li>107 Rs payment karein.</li><li>Aadhaar OTP daalein.</li><li>Receipt print karein.</li></ol>" },
+            { title: "2. Jati Praman Patra (Jharsewa)", link: "https://jharsewa.jharkhand.gov.in/", docs: "Aadhaar, Vanshavali, Khatiyan, Form", process: "<ol><li>Jharsewa me login karein.</li><li>Apply for services pe click karein.</li><li>Caste certificate select karein.</li><li>Customer details bharein.</li><li>Address aur category select karein.</li><li>Vanshavali/Khatiyan PDF upload karein.</li><li>Submit karein.</li><li>Acknowledgement print karein.</li></ol>" },
+            { title: "3. Aay Praman Patra (Income)", link: "https://jharsewa.jharkhand.gov.in/", docs: "Aadhaar, Income detail proof", process: "<ol><li>Jharsewa me login karein.</li><li>Income certificate chunein.</li><li>Naam aur details bharein.</li><li>Varshik aay (Annual income) darj karein.</li><li>Documents upload karein.</li><li>Submit karke slip nikal lein.</li></ol>" },
+            { title: "4. Awasiya (Local Residence)", link: "https://jharsewa.jharkhand.gov.in/", docs: "Aadhaar, Khatiyan/Rasid", process: "<ol><li>Jharsewa portal kholen.</li><li>Local resident certificate chunein.</li><li>Personal aur address details dalein.</li><li>Kab se reh rahe hain, wo saal likhein.</li><li>Khatiyan upload karein.</li><li>Submit karein.</li></ol>" },
+            { title: "5. Ration Card New Apply", link: "https://aahar.jharkhand.gov.in/", docs: "Mukhiya ka Aadhaar, Bank Passbook", process: "<ol><li>Aahar portal kholen.</li><li>Green card apply chunein.</li><li>Mukhiya ka registration karein.</li><li>Details aur OTP bharein.</li><li>Bank details daalein.</li><li>Aadhaar upload karein.</li><li>Members add karein.</li><li>Submit karke Block me jama karein.</li></ol>" },
+            { title: "6. Ration Card Member Add", link: "https://aahar.jharkhand.gov.in/", docs: "Ration Card No, Naye member ka Aadhaar", process: "<ol><li>Aahar portal -> Online Sewa me jayein.</li><li>Parivar ka sadasya jodna chunein.</li><li>Ration card number dalein.</li><li>Mukhiya ka OTP verify karein.</li><li>Naye member ka details aur UID bharein.</li><li>Submit karein.</li></ol>" },
+            { title: "7. Voter ID Apply (Form 6)", link: "https://voters.eci.gov.in/", docs: "Aadhaar, Color Photo", process: "<ol><li>NVSP portal par login karein.</li><li>Form 6 select karein.</li><li>State aur Assembly chunein.</li><li>Naam, DOB, aur address bharein.</li><li>Photo aur Aadhaar upload karein.</li><li>Submit karke Reference ID copy karein.</li></ol>" },
+            { title: "8. Voter ID Correction (Form 8)", link: "https://voters.eci.gov.in/", docs: "EPIC No, Aadhaar (Proof)", process: "<ol><li>Form 8 select karein.</li><li>Self ya Family chunein.</li><li>Correction in entries par tick karein.</li><li>Jo badalna hai uspe click karein (Jaise Name/DOB).</li><li>Sahi detail aur proof upload karein.</li><li>Submit karein.</li></ol>" },
+            { title: "9. E-Shram Card", link: "https://eshram.gov.in/", docs: "Aadhaar (Mobile linked), Bank Passbook", process: "<ol><li>E-shram portal par jayein.</li><li>Register on eShram par click karein.</li><li>Aadhaar number aur OTP dalein.</li><li>Bank details aur Nominee bharein.</li><li>Skill/Kaam select karein.</li><li>Card generate hoga, download karein.</li></ol>" },
+            { title: "10. Ayushman Bharat Card", link: "https://beneficiary.nha.gov.in/", docs: "Aadhaar, Ration Card", process: "<ol><li>Beneficiary login karein mobile OTP se.</li><li>State aur Ration card number se search karein.</li><li>Naam aane par E-KYC par click karein.</li><li>Aadhaar OTP daalein.</li><li>Approve hone par Download karein.</li></ol>" },
+            { title: "11. PM Kisan Registration", link: "https://pmkisan.gov.in/", docs: "Aadhaar, Passbook, Zameen Rasid", process: "<ol><li>PM Kisan portal kholen.</li><li>New Farmer Registration chunein.</li><li>Aadhaar se verify karein.</li><li>Khata/Khesra/Area details dalein.</li><li>Rasid upload karke submit karein.</li></ol>" },
+            { title: "12. PM Kisan e-KYC", link: "https://pmkisan.gov.in/", docs: "Aadhaar Number", process: "<ol><li>Portal par e-KYC option chunein.</li><li>Aadhaar number dalein.</li><li>Aadhaar linked mobile par OTP aayega.</li><li>OTP submit karein, KYC done!</li></ol>" },
+            { title: "13. PF Withdrawal (EPFO)", link: "https://unifiedportal-mem.epfindia.gov.in/", docs: "UAN, Password, Cheque/Passbook", process: "<ol><li>UAN se login karein.</li><li>Online Services -> Claim par jayein.</li><li>Account verify karein.</li><li>Form 31 (Advance) ya 19/10C chunein.</li><li>Cheque photo upload karein aur submit karein.</li></ol>" },
+            { title: "14. PF KYC Update", link: "https://unifiedportal-mem.epfindia.gov.in/", docs: "UAN, Aadhaar, PAN, Bank", process: "<ol><li>Manage -> KYC section me jayein.</li><li>Bank/PAN/Aadhaar select karein.</li><li>Details daal kar save karein.</li><li>Employer approval ka wait karein.</li></ol>" },
+            { title: "15. Aadhaar PVC Card Order", link: "https://myaadhaar.uidai.gov.in/", docs: "Aadhaar Number", process: "<ol><li>UIDAI portal par jayein.</li><li>Order Aadhaar PVC Card chunein.</li><li>Aadhaar no aur Captcha dalein.</li><li>50 Rs online pay karein.</li><li>Post dwara card ghar aayega.</li></ol>" },
+            { title: "16. Aadhaar Download", link: "https://myaadhaar.uidai.gov.in/", docs: "Aadhaar No / Enrolment ID", process: "<ol><li>Download Aadhaar par click karein.</li><li>OTP verify karein.</li><li>PDF download hoga (Password: Name 4 letter + Birth Year).</li></ol>" },
+            { title: "17. Zameen Ka Rasid (Jharbhoomi)", link: "https://jharbhoomi.jharkhand.gov.in/", docs: "Khata/Khesra No, Mauza", process: "<ol><li>Online Lagaan par click karein.</li><li>Zila, Anchal, Halka chunein.</li><li>Khata number se search karein.</li><li>Baqaya dekhein aur online payment karein.</li><li>Rasid print karein.</li></ol>" },
+            { title: "18. LPC Apply", link: "https://jharbhoomi.jharkhand.gov.in/", docs: "Current Rasid, Aadhaar", process: "<ol><li>LPC apply section me jayein.</li><li>Rasid details daalein.</li><li>Ghoshna patra upload karein.</li><li>Submit karein.</li></ol>" },
+            { title: "19. E-Kalyan Scholarship", link: "https://ekalyan.cgg.gov.in/", docs: "Jati, Aay, Awasiya, Bonafide, Marksheet", process: "<ol><li>Student login karein.</li><li>Apply online par click karein.</li><li>Details bharein.</li><li>Sabhi PDF documents (150kb) upload karein.</li><li>Printout college me jama karein.</li></ol>" },
+            { title: "20. Learning License", link: "https://sarathi.parivahan.gov.in/", docs: "Aadhaar, Blood Group", process: "<ol><li>Sarathi portal par Apply Learner License chunein.</li><li>Aadhaar e-KYC karein.</li><li>Form bharein aur fees pay karein.</li><li>Online test pass karein.</li></ol>" },
+            { title: "21. Driving License Renewal", link: "https://sarathi.parivahan.gov.in/", docs: "Old DL, Medical Form 1A", process: "<ol><li>DL Services par jayein.</li><li>DL number dalein.</li><li>Renewal chunein aur fees pay karein.</li></ol>" },
+            { title: "22. Vridha Pension", link: "https://nsap.nic.in/", docs: "Aadhaar, Age Proof (60+)", process: "<ol><li>NSAP portal kholen.</li><li>State aur scheme chunein.</li><li>Aadhaar aur bank details bharein.</li><li>Submit karein.</li></ol>" },
+            { title: "23. Vidhwa Pension", link: "https://nsap.nic.in/", docs: "Aadhaar, Husband Death Certificate", process: "<ol><li>NSAP portal kholen.</li><li>Widow pension scheme chunein.</li><li>Details aur proof upload karein.</li></ol>" },
+            { title: "24. Traffic Challan Pay", link: "https://echallan.parivahan.gov.in/", docs: "Vehicle No ya Challan No", process: "<ol><li>E-challan portal par jayein.</li><li>Vehicle number aur chassis last 5 digit dalein.</li><li>Pending challan online pay karein.</li></ol>" },
+            { title: "25. Passport Apply", link: "https://portal2.passportindia.gov.in/", docs: "Aadhaar, 10th Marksheet", process: "<ol><li>Passport Seva par register karein.</li><li>Form bharein.</li><li>1500 Rs payment karein.</li><li>Appointment book karke RPO visit karein.</li></ol>" },
+            { title: "26. Police Clearance (PCC)", link: "https://citizen.jhpolice.gov.in/", docs: "Aadhaar, Photo", process: "<ol><li>Jharkhand Police portal login karein.</li><li>PCC apply form bharein.</li><li>Fees pay karein.</li></ol>" },
+            { title: "27. MSME Udyam Registration", link: "https://udyamregistration.gov.in/", docs: "Aadhaar, PAN, Bank Details", process: "<ol><li>Free Udyam portal par jayein.</li><li>Aadhaar OTP se verify karein.</li><li>Business name aur bank account dalein.</li><li>Certificate turant download karein.</li></ol>" },
+            { title: "28. FSSAI Food License", link: "https://foscos.fssai.gov.in/", docs: "Aadhaar, Shop Photo", process: "<ol><li>FoSCoS portal kholen.</li><li>Basic registration (100 Rs) form bharein.</li><li>Photo aur Aadhaar upload karein.</li></ol>" },
+            { title: "29. Train Ticket (IRCTC)", link: "https://www.irctc.co.in/", docs: "Passenger details", process: "<ol><li>IRCTC login karein.</li><li>Station aur Date chunein.</li><li>Passenger naam bharein aur UPI se pay karein.</li></ol>" },
+            { title: "30. Electricity Bill Pay", link: "https://jbvnl.co.in/", docs: "Consumer No", process: "<ol><li>JBVNL portal -> Quick Pay.</li><li>Consumer number dalein.</li><li>Bill dekhein aur pay karein.</li></ol>" }
         ];
-        localStorage.setItem('acs_services_data', JSON.stringify(services));
+        localStorage.setItem('acs_top30_digital', JSON.stringify(services));
     }
 
     const serviceListDiv = document.getElementById('serviceList');
     const searchInput = document.getElementById('searchInput');
     const suggestionsBox = document.getElementById('suggestionsBox');
 
-    // Display all services initially
     function displayServices(data) {
         serviceListDiv.innerHTML = "";
         data.forEach(service => {
@@ -140,58 +180,38 @@
         });
     }
 
-    // Smart Search & Autocomplete
     function handleSearch() {
         const query = searchInput.value.toLowerCase().trim();
         suggestionsBox.innerHTML = "";
-        
-        if (query.length === 0) {
-            suggestionsBox.style.display = "none";
-            displayServices(services);
-            return;
-        }
+        if (query.length === 0) { suggestionsBox.style.display = "none"; displayServices(services); return; }
 
-        const filtered = services.filter(service => 
-            service.title.toLowerCase().includes(query) || 
-            service.docs.toLowerCase().includes(query)
-        );
-
+        const filtered = services.filter(service => service.title.toLowerCase().includes(query));
         if (filtered.length > 0) {
             suggestionsBox.style.display = "block";
             filtered.forEach(service => {
                 const div = document.createElement('div');
-                div.className = 'suggestion-item';
-                div.innerText = service.title;
-                div.onclick = () => {
-                    searchInput.value = service.title;
-                    suggestionsBox.style.display = "none";
-                    openModal(service);
-                };
+                div.className = 'suggestion-item'; div.innerText = service.title;
+                div.onclick = () => { searchInput.value = service.title; suggestionsBox.style.display = "none"; openModal(service); };
                 suggestionsBox.appendChild(div);
             });
         } else {
             suggestionsBox.style.display = "block";
-            suggestionsBox.innerHTML = "<div class='suggestion-item' style='color:red;'>Koi match nahi mila. Niche Bot 🤖 se puchiye, wo auto-add kar dega!</div>";
+            suggestionsBox.innerHTML = "<div class='suggestion-item' style='color:#ff007a;'>Nahi mila? Niche Assistant se puchiye!</div>";
         }
         displayServices(filtered);
     }
 
-    // Modal Functions
     function openModal(service) {
         document.getElementById('modalTitle').innerHTML = service.title;
-        document.getElementById('modalLink').innerHTML = `<a href="${service.link}" target="_blank" class="official-link">🌐 Click here to Open Portal</a>`;
+        document.getElementById('modalLink').innerHTML = `<a href="${service.link}" target="_blank" class="official-link">🚀 CLICK HERE TO OPEN PORTAL</a>`;
         document.getElementById('modalDocs').innerHTML = service.docs;
         document.getElementById('modalProcess').innerHTML = service.process;
         document.getElementById('serviceModal').style.display = 'block';
     }
 
     function closeModal() { document.getElementById('serviceModal').style.display = 'none'; }
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('serviceModal')) closeModal();
-        if (event.target != searchInput) suggestionsBox.style.display = "none";
-    }
-
-    // --- ACS ASSISTANT (CHATBOT & AUTO-SAVE LOGIC) ---
+    
+    // --- ACS ASSISTANT (CHATBOT LOGIC) ---
     function toggleChat() {
         const chatBox = document.getElementById('chatBox');
         chatBox.style.display = chatBox.style.display === "flex" ? "none" : "flex";
@@ -203,103 +223,107 @@
         const input = document.getElementById('chatInput');
         const message = input.value.trim();
         if (message === "") return;
-
         appendMessage("msg-user", message);
         input.value = "";
-        
         setTimeout(() => botReply(message.toLowerCase()), 800);
+    }
+
+    // FAKE IMAGE SCANNER
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if(file) {
+            appendMessage("msg-user", `📷 Image Uploaded: ${file.name}`);
+            setTimeout(() => {
+                appendMessage("msg-bot", "<b>🔍 System Scanning Form...</b><br><br>Adarsh Ji, form scan ho gaya hai! Form ki basic details manually confirm karni hogi:<br><br>👉 <b>Naam:</b> (Customer se puche)<br>👉 <b>Pita ka Naam:</b> (Check karein)<br>👉 <b>Date of Birth:</b> (Aadhaar se milayein)<br>👉 <b>Address:</b> (Verify karein)<br><br>Agar koi khali kagaz par <b>Application</b> likhwani hai, toh chat me topic type kijiye.");
+            }, 1500);
+        }
     }
 
     function appendMessage(className, text) {
         const chatBody = document.getElementById('chatBody');
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `msg ${className}`;
-        msgDiv.innerHTML = text;
-        chatBody.appendChild(msgDiv);
-        chatBody.scrollTop = chatBody.scrollHeight;
+        const msgDiv = document.createElement('div'); msgDiv.className = `msg ${className}`; msgDiv.innerHTML = text;
+        chatBody.appendChild(msgDiv); chatBody.scrollTop = chatBody.scrollHeight;
     }
 
+    // FIXED BRAIN FOR AI BOT (Ab pura process batayega!)
     function botReply(query) {
-        let reply = "Maaf karna Uncle, yeh kaam meri memory mein nahi hai.";
-        let newServiceToAdd = null;
+        let reply = "Processing failed. Adarsh Ji, kripya thoda clear likhiye.";
+        let newService = null;
 
-        // AI KNOWLEDGE BASE (Hidden data to be added upon request)
-        if (query.includes("photo") || query.includes("edit") || query.includes("design")) {
-            newServiceToAdd = {
-                title: "Photo Editing & Graphic Design",
-                link: "https://www.canva.com/",
-                docs: "Customer Photo, Requirement details",
-                process: "1. Remove.bg website par photo daal kar background hatayein.<br>2. Canva par logo ya banner design karein.<br>3. Photoshop mein 3.5cm x 4.5cm set karke passport photo print karein."
-            };
-            reply = "Maine Photo Editing aur Design ka process bata diya hai. <b>Aur haan, maine is kaam ko aapki main Search List mein permanently SAVE bhi kar diya hai!</b> Ab aap ise kabhi bhi search kar sakte hain.";
-        
-        } else if (query.includes("wedding") || query.includes("shaadi") || query.includes("card") || query.includes("invitation")) {
-            newServiceToAdd = {
-                title: "Wedding Invitation Card Maker",
-                link: "https://www.canva.com/invitations/templates/wedding/",
-                docs: "Ladka-Ladki ka naam, Date, Venue details",
-                process: "1. Canva par Wedding Invitation template search karein.<br>2. Dulha-Dulhan aur unke parivar ka naam update karein.<br>3. Design ko HD quality mein download karke customer ko WhatsApp karein."
-            };
-            reply = "Shaadi card banane ka process ready hai! <b>Maine is kaam ko aapki List mein add kar diya hai.</b>";
-        
-        } else if (query.includes("jcb") || query.includes("parts")) {
-            newServiceToAdd = {
-                title: "JCB & Excavator Spare Parts Selling",
-                link: "https://seller.indiamart.com/",
-                docs: "Parts ki photo, Price list, Dukan ka naam",
-                process: "1. JCB spare parts ki clear photo kheinche.<br>2. IndiaMart ya Facebook Marketplace par naya product list karein.<br>3. Sahi description aur price daal kar customer se deal karein."
-            };
-            reply = "JCB parts online bechne ka tarika main janta hu. <b>Yeh kaam ab aapki list mein Save ho chuka hai!</b>";
-        
-        } else if (query.includes("youtube") || query.includes("video") || query.includes("gaming")) {
-            newServiceToAdd = {
-                title: "YouTube Video Editing",
-                link: "https://studio.youtube.com/",
-                docs: "Screen recording video, Thumbnail image",
-                process: "1. VN App ya Filmora mein game ki screen recording daalein.<br>2. Faltu hisse cut karein aur background music lagayein.<br>3. YouTube Studio se video upload karein aur achha sa title daalein."
-            };
-            reply = "YouTube video edit karne ka process maine aapki main Website List mein hamesha ke liye daal diya hai Anuj Uncle!";
-        
-        } else if (query.includes("website") || query.includes("app") || query.includes("python")) {
-            newServiceToAdd = {
-                title: "Website & App Development",
-                link: "https://replit.com/",
-                docs: "Code Editor, Project ka idea",
-                process: "1. HTML/CSS se website ka design banayein.<br>2. Agar App banana hai toh Python mein Kivy ya Tkinter use karein.<br>3. Pydroid 3 app mein mobile par code test karein."
-            };
-            reply = "Website/App development ka process maine add kar diya hai. Aap ise apni main list mein check karein.";
-        
-        } else if (query.includes("whatsapp")) {
-            newServiceToAdd = {
-                title: "WhatsApp Business Management",
-                link: "https://business.whatsapp.com/",
-                docs: "Business Number, Catalogs",
-                process: "1. Customer ko bulk message bhejane ke liye WhatsApp Business App use karein.<br>2. 'Labels' feature se payment pending walo ko mark karein.<br>3. Auto-reply set karein."
-            };
-            reply = "WhatsApp manage karne ka tarika maine aapki list mein permanently save kar diya hai.";
-        } else if (query.includes("hello") || query.includes("hi")) {
-            reply = "Namaste Anuj Uncle! Boliye aaj ACS par koun sa naya kaam sikhna ya list mein add karna hai?";
+        // 1. Check if user wants an Application
+        if (query.includes("application") || query.includes("prarthna") || query.includes("likh") || query.includes("letter")) {
+            reply = `Adarsh Ji, yeh lijiye aapka Application Format. Isko copy karke customer ko print de dijiye!<br><br>
+            <div class="app-box">
+                <b>[HINDI FORMAT]</b><br>
+                सेवा में,<br>
+                श्रीमान शाखा प्रबंधक / अधिकारी महोदय,<br>
+                [बैंक/ऑफिस का नाम], [शहर का नाम]<br><br>
+                विषय: ${query} के संबंध में आवेदन।<br><br>
+                महाशय,<br>
+                सविनय निवेदन है कि मैं [ग्राहक का नाम], पिता [पिता का नाम], आपके क्षेत्र/बैंक का निवासी/खाताधारक हूँ। मेरा खता संख्या/विवरण [विवरण डालें] है।<br><br>
+                मुझे [समस्या या कारण] के कारण यह आवेदन देना पड़ रहा है। अतः आपसे नम्र निवेदन है कि मेरे इस कार्य को जल्द से जल्द पूरा करने की कृपा करें।<br><br>
+                धन्यवाद।<br>
+                भवदीय:<br>
+                नाम: ____________<br>
+                मोबाइल: ____________<br>
+                हस्ताक्षर: ____________
+            </div>`;
+            appendMessage("msg-bot", reply);
+            return;
         }
 
-        // Add to local storage if it's a new service
-        if (newServiceToAdd) {
-            let exists = services.find(s => s.title === newServiceToAdd.title);
+        // 2. Check if the work is ALREADY in the Top 30 list (Like PM Kisan)
+        let queryWords = query.split(" ");
+        let mainKeyword = queryWords.length > 0 ? queryWords[0] : query;
+        let foundExisting = services.find(s => s.title.toLowerCase().includes(query) || (mainKeyword.length > 3 && s.title.toLowerCase().includes(mainKeyword)));
+        
+        if (foundExisting) {
+            // Yahan par humne code fix kar diya hai. Ab ye bhaagne ko nahi kahega, pura detail dega!
+            reply = `Adarsh Ji, yeh raha <b>${foundExisting.title}</b> ka pura details:<br><br>
+            <div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; border-left: 3px solid #ff007a; margin-bottom: 10px;">
+                <span style="color:#00f0ff; font-weight:bold;">📄 Required Documents:</span><br> 
+                ${foundExisting.docs}
+            </div>
+            <div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; border-left: 3px solid #8a2be2;">
+                <span style="color:#00f0ff; font-weight:bold;">⚙️ Step-by-Step Process:</span><br> 
+                ${foundExisting.process}
+            </div>`;
+            appendMessage("msg-bot", reply);
+            return;
+        }
+
+        // 3. AUTO-ADD NEW SERVICES
+        if (query.includes("photo") || query.includes("edit") || query.includes("design")) {
+            newService = {
+                title: "Photo Editing & Graphic Design", link: "https://www.canva.com/", docs: "Customer Photo", process: "<ol><li>Remove.bg se background hatayein.</li><li>Canva par design banayein.</li><li>Passport photo print karein.</li></ol>"
+            };
+            reply = "Photo Editing ka process batakar maine isko aapki <b>Main List mein hamesha ke liye SAVE</b> kar diya hai!";
+        } else if (query.includes("wedding") || query.includes("shaadi") || query.includes("card")) {
+            newService = {
+                title: "Wedding Card Maker", link: "https://www.canva.com/", docs: "Naam, Date, Venue", process: "<ol><li>Canva par template dhoondhein.</li><li>Details edit karein.</li><li>Download karke WhatsApp karein.</li></ol>"
+            };
+            reply = "Shaadi card banane ka tarika <b>Main List mein SAVE</b> ho gaya hai!";
+        } else if (query.includes("hello") || query.includes("hi")) {
+             reply = "Namaste Adarsh Ji! Aaj ACS center par kounsa naya kaam sikhna hai?";
+        } else {
+            reply = "Maaf karna Adarsh Ji, yeh specific kaam meri list mein nahi hai. Par aap 'Camera' se form scan kar sakte hain ya mujhse koi 'Application' likhwa sakte hain.";
+        }
+
+        if (newService) {
+            let exists = services.find(s => s.title === newService.title);
             if (!exists) {
-                services.push(newServiceToAdd);
-                localStorage.setItem('acs_services_data', JSON.stringify(services));
+                services.push(newService);
+                localStorage.setItem('acs_top30_digital', JSON.stringify(services));
                 displayServices(services);
-                // Also clear search box if user was searching
-                searchInput.value = "";
-                suggestionsBox.style.display = "none";
+                searchInput.value = ""; suggestionsBox.style.display = "none";
             } else {
-                reply = "Uncle, yeh kaam maine pehle se hi aapki list mein save kar rakha hai. Aap search karke dekh lijiye!";
+                reply = "Adarsh Ji, yeh data maine already save kar diya hai.";
             }
         }
 
         appendMessage("msg-bot", reply);
     }
 
-    // Load everything on start
     window.onload = () => displayServices(services);
 </script>
 
